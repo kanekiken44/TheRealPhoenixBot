@@ -20,20 +20,21 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
-Hi {}, my name is {}!
+Heyo {}, my name is *{}*!
 
+I'm here to help you with managing your group with extra fun.
 You can find the list of available commands with /help.
 """
 
-BOT_IMAGE = "https://telegra.ph/file/93612a540608640355f20.mp4"
+BOT_IMAGE = "https://telegra.ph/file/7b5a175dc2577561ea767.mp4"
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
 I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of \
 the things I can help you with.
-If you have any questions on how to use me, head over to @PhoenixSupport
+If you have any questions on how to use me, head over to [support](https://t.me/nezuko_support)
 
-*Main* commands available:
+*Main commands available:*
  - /start: start the bot
  - /help: PM's you this message.
  - /help <module name>: PM's you info about that module.
@@ -46,9 +47,8 @@ If you have any questions on how to use me, head over to @PhoenixSupport
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-DONATE_STRING = """{0} doesn't currently need any donations.
-However you can donate to the creator of the original source code which {0} \
-is based on:- [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen).""".format(dispatcher.bot.first_name)
+START_MSG = "https://telegra.ph/file/33bd257c194f7e534aedf.mp4"
+DONATE_STRING = """we doesn't need financial support now. support us by joining @nezuko_support""".format(dispatcher.bot.first_name)
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -149,7 +149,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Add Pɧơɛnıх to your group.",
+                                text="add Ayasaki to your group.",
                                 url="t.me/{}?startgroup=botstart".format(bot.username),
                             )
                         ]
@@ -157,7 +157,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                 ),
             )
     else:
-        update.effective_message.reply_text("Yo, why'd you summon me?")
+        update.effective_message.reply_animation(START_MSG)
 
 
 # for test purposes
@@ -257,7 +257,7 @@ def get_help(bot: Bot, update: Update):
         module = args[1].lower()
         text = "Here is the available help for the *{}* module:\n".format(HELPABLE[module].__mod_name__) \
                + HELPABLE[module].__help__
-        send_help(chat.id, text, InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="help_back")]]))
+        send_help(chat.id, text, InlineKeyboardMarkup([[InlineKeyboardButton(text="🔙", callback_data="help_back")]]))
 
     else:
         send_help(chat.id, HELP_STRINGS)
